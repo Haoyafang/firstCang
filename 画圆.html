@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			canvas {
+				box-shadow: 3px 3px 3px black;
+			}
+		</style>
+	</head>
+
+	<body>
+		<canvas id="" width="500" height="500"></canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.querySelector("canvas");
+		var ctx = canvas.getContext("2d");
+		
+		var timer = null;
+		var angle = 0;
+		var r = 200;
+		var sx = 250;
+		var sy = 250;
+		//选取随机色
+		function randColor(){
+			var color = "";
+			var r = Math.round(Math.random()*255);
+			var g = Math.round(Math.random()*255);
+			var b = Math.round(Math.random()*255);
+			color = "rgba("+r+","+g+","+b+","+"1)";
+			return color;
+		}
+		ctx.fillStyle = randColor();
+		//动态创建圆
+		function animate() {
+			angle += Math.PI / 180;
+			if(angle >= Math.PI * 2) {
+				ctx.fillStyle = randColor();
+				angle = 0;//角度置零
+				r -= 50;
+			}
+			if(r < 0) {
+				clearInterval(timer);
+				timer = null;
+				return;
+			}
+			var x = sx + Math.sin(angle) * r;
+			var y = sy - Math.cos(angle) * r;
+			ctx.beginPath();
+
+			ctx.arc(x, y, 10, 0, Math.PI * 2, true);
+			ctx.fill();
+		}
+		timer = setInterval(animate, 10);
+	</script>
+
+</html>
